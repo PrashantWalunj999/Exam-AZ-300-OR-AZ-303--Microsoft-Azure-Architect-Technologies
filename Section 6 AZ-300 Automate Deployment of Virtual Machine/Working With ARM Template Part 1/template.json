@@ -1,0 +1,70 @@
+    {
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_MyVM_name": {
+            "defaultValue": "MyVM",
+            "type": "String"
+        },
+        "disks_MyVM_disk1_968d3b6740ce47f99c3a1d105168e0ab_externalid": {
+            "defaultValue": "/subscriptions/c2397ac1-f8a2-4424-bb35-dc8c93c1a3c7/resourceGroups/AZ300RG/providers/Microsoft.Compute/disks/MyVM_disk1_968d3b6740ce47f99c3a1d105168e0ab",
+            "type": "String"
+        },
+        "networkInterfaces_MyVM_externalid": {
+            "defaultValue": "/subscriptions/c2397ac1-f8a2-4424-bb35-dc8c93c1a3c7/resourceGroups/AZ300RG/providers/Microsoft.Network/networkInterfaces/MyVM",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "name": "[parameters('virtualMachines_MyVM_name')]",
+            "location": "eastus",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS1_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_MyVM_name'), '_disk1_968d3b6740ce47f99c3a1d105168e0ab')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_MyVM_disk1_968d3b6740ce47f99c3a1d105168e0ab_externalid')]"
+                        },
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_MyVM_name')]",
+                    "adminUsername": "PrashantWalunj",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_MyVM_externalid')]"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
