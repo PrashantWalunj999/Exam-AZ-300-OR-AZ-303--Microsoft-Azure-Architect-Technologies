@@ -1,0 +1,27 @@
+Your cloud drive has been created in:
+
+Subscription Id: c2397ac1-f8a2-4424-bb35-dc8c93c1a3c7
+Resource group:  cloud-shell-storage-centralindia
+Storage account: csg100320003eb6db26
+File share:      cs-prashantwalunj-outlook-com-100320003eb6db26
+
+Initializing your account for Cloud Shell...\
+Requesting a Cloud Shell.Succeeded.
+Connecting terminal...
+
+Welcome to Azure Cloud Shell
+
+Type "az" to use Azure CLI
+Type "help" to learn about Cloud Shell
+
+prashant@Azure:~$ az aks get-credentials --resource-group AZ300-RG --name pvwKubernestesCluster
+Merged "pvwKubernestesCluster" as current context in /home/prashant/.kube/config
+prashant@Azure:~$ Kubectl get nodes
+bash: Kubectl: command not found
+prashant@Azure:~$ kubectl get nodes
+NAME                                STATUS   ROLES   AGE    VERSION
+aks-agentpool-26840696-vmss000000   Ready    agent   129m   v1.15.11
+aks-agentpool-26840696-vmss000001   Ready    agent   129m   v1.15.11
+prashant@Azure:~$ dir
+clouddrive
+prashant@Azure:~$
