@@ -1,0 +1,125 @@
+prashant@Azure:~$ dir
+clouddrive
+
+prashant@Azure:~$ mkdir sf
+
+prashant@Azure:~$ cd sf
+
+prashant@Azure:~/sf$ az group create --name pvwsf --location westindia
+{
+  "id": "/subscriptions/c2397ac1-f8a2-4424-bb35-dc8c93c1a3c7/resourceGroups/pvwsf",
+  "location": "westindia",
+  "managedBy": null,
+  "name": "pvwsf",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+prashant@Azure:~/sf$ az sf cluster create --resource-group pvwsf --location westindia --certificate-output-folder . --certificate-password Prashant@123 --certificate-subject-name "pvwsf.westindia.cloudapp.azure.com" --cluster-name "pvwsf" --cluster-size 2 --os UbuntuServer1604 --vault-name "azpvwvoult" --vault-resource-group pvwsf --vm-password Prashant@123 --vm-user-name pvwtestuser
+Command group 'sf' is in preview. It may be changed/removed in a future release.
+{- Finished ..
+  "certificate": {
+    "certificate_file": "./pvwsfwestindiacloudappazurecom.pem",
+    "certificate_identifier": "https://azpvwvoult.vault.azure.net/secrets/pvwsfwestindiacloudappazurecom/7a2d49657a164b7f96cfe24654df5a61",
+    "thumbprint": "493AB62BAA355A4AEA0F5F9C8287CD63A52911BB",
+    "vault_id": "/subscriptions/c2397ac1-f8a2-4424-bb35-dc8c93c1a3c7/resourceGroups/pvwsf/providers/Microsoft.KeyVault/vaults/azpvwvoult"
+  },
+  "cluster": {
+    "addOnFeatures": null,
+    "availableClusterVersions": [
+      {
+        "codeVersion": "7.0.469.1",
+        "environment": "Ubuntu",
+        "supportExpiryUtc": "2020-08-01T00:00:00"
+      },
+      {
+        "codeVersion": "7.0.471.1",
+        "environment": "Ubuntu",
+        "supportExpiryUtc": "2020-08-01T00:00:00"
+      },
+      {
+        "codeVersion": "7.1.410.1",
+        "environment": "Ubuntu",
+        "supportExpiryUtc": "9999-12-31T23:59:59.9999999"
+      }
+    ],
+    "azureActiveDirectory": null,
+    "certificate": {
+      "thumbprint": "493AB62BAA355A4AEA0F5F9C8287CD63A52911BB",
+      "thumbprintSecondary": null,
+      "x509StoreName": "My"
+    },
+    "certificateCommonNames": null,
+    "clientCertificateCommonNames": [],
+    "clientCertificateThumbprints": [],
+    "clusterCodeVersion": "7.0.469.1",
+    "clusterEndpoint": "https://westindia.servicefabric.azure.com/runtime/clusters/b8880509-eee9-4110-aedb-4d5e71b6e35b",
+    "clusterId": "b8880509-eee9-4110-aedb-4d5e71b6e35b",
+    "clusterState": "Deploying",
+    "diagnosticsStorageAccountConfig": {
+      "blobEndpoint": "https://sflogseilo6q43gvsxa2.blob.core.windows.net/",
+      "primaryAccessKey": "",
+      "protectedAccountKeyName": "StorageAccountKey1",
+      "queueEndpoint": "https://sflogseilo6q43gvsxa2.queue.core.windows.net/",
+      "secondaryAccessKey": "",
+      "storageAccountName": "sflogseilo6q43gvsxa2",
+      "tableEndpoint": "https://sflogseilo6q43gvsxa2.table.core.windows.net/"
+    },
+    "etag": "W/\"637270161951020811\"",
+    "eventStoreServiceEnabled": null,
+    "fabricSettings": [
+      {
+        "name": "Security",
+        "parameters": [
+          {
+            "name": "ClusterProtectionLevel",
+            "value": "EncryptAndSign"
+          }
+        ]
+      }
+    ],
+    "id": "/subscriptions/c2397ac1-f8a2-4424-bb35-dc8c93c1a3c7/resourcegroups/pvwsf/providers/Microsoft.ServiceFabric/clusters/pvwsf",
+    "location": "westindia",
+    "managementEndpoint": "https://pvwsf.westindia.cloudapp.azure.com:19080",
+    "name": "pvwsf",
+    "nodeTypes": [
+      {
+        "applicationPorts": {
+          "endPort": 30000,
+          "startPort": 20000
+        },
+        "capacities": null,
+        "clientConnectionEndpointPort": 19000,
+        "durabilityLevel": "Bronze",
+        "ephemeralPorts": {
+          "endPort": 65534,
+          "startPort": 49152
+        },
+        "httpGatewayEndpointPort": 19080,
+        "isPrimary": true,
+        "name": "nt1vm",
+        "placementProperties": null,
+        "reverseProxyEndpointPort": null,
+        "vmInstanceCount": 2
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "reliabilityLevel": "None",
+    "resourceGroup": "pvwsf",
+    "reverseProxyCertificate": null,
+    "reverseProxyCertificateCommonNames": null,
+    "tags": {
+      "clusterName": "pvwsf",
+      "resourceType": "Service Fabric"
+    },
+    "type": "Microsoft.ServiceFabric/clusters",
+    "upgradeDescription": null,
+    "upgradeMode": "Automatic",
+    "vmImage": "Linux"
+  },
+  "vm_user_name": "pvwtestuser"
+}
+prashant@Azure:~/sf$
