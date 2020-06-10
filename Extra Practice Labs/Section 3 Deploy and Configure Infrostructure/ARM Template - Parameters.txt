@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+        "parameters": {
+        "networkname": {
+	"type" : "string",
+	"defaultValue":"armnetwork",
+	 "metadata": {
+        "description": "Name of Virtual Network"
+      }
+    },
+        "networkaddress": {
+	"type" : "string",
+	"defaultValue":"10.6.0.0/16",
+	 "metadata": {
+        "description": "Address of Virtual Network"
+      }
+    },
+        "subnetname": {
+	"type" : "string",
+	"defaultValue":"default",
+	 "metadata": {
+        "description": "Name of subnet"
+      }
+    },
+        "subnetaddress": {
+	"type" : "string",
+	"defaultValue":"10.6.0.0/24",
+	 "metadata": {
+        "description": "Subnet address range"
+      }
+    }
+   },
+	"resources": [{
+		"apiVersion": "2015-06-15",
+		"type": "Microsoft.Network/virtualNetworks",
+		"name": "[parameters('networkname')]",
+		"location": "[resourceGroup().location]",
+		"properties": {
+			"addressSpace": {
+				"addressPrefixes": [
+					"[parameters('networkaddress')]"
+				]
+			},
+			"subnets": [{
+				"name": "[parameters('subnetname')]",
+				"properties": {
+					"addressPrefix": "[parameters('subnetaddress')]"
+				}
+			}]
+		}
+	}]
+}

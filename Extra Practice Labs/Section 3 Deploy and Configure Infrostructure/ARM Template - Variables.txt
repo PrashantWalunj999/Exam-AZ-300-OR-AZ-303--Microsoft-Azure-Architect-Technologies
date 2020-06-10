@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {},
+        "variables": {
+        "networkaddress": "10.5.0.0/16",
+        "networkname": "armnewnetwork",
+        "subnetname": "default",
+        "subnetaddress": "10.5.0.0/24"
+         },
+	"resources": [{
+		"apiVersion": "2015-06-15",
+		"type": "Microsoft.Network/virtualNetworks",
+		"name": "[variables('networkname')]",
+		"location": "[resourceGroup().location]",
+		"properties": {
+			"addressSpace": {
+				"addressPrefixes": [
+					"[variables('networkaddress')]"
+				]
+			},
+			"subnets": [{
+				"name": "[variables('subnetname')]",
+				"properties": {
+					"addressPrefix": "[variables('subnetaddress')]"
+				}
+			}]
+		}
+	}]
+}

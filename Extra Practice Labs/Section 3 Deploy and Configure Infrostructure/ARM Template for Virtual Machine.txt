@@ -1,0 +1,120 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"variables": {
+		"networkaddress": "10.5.0.0/16",
+		"networkname": "armnetwork",
+		"subnetname": "default",
+		"subnetaddress": "10.5.0.0/24",
+		"NetworkCard": "demonetworkcard345",
+		"NetworkID": "[resourceId('Microsoft.Network/virtualNetworks', 'armnetwork')]",
+		"SubnetID": "[concat(variables('NetworkID'), '/subnets/', variables('subnetname'))]",
+		"ImagePublisher": "MicrosoftWindowsServer",
+		"ImageOffer": "WindowsServer",
+		"OSDiskName": "demovmOSDisk",
+		"VmSize": "Standard_D2s_v3"
+	},
+	"parameters": {
+		"vmname": {
+			"type": "string",
+			"minLength": 1
+		},
+		"vmAdminUser": {
+			"type": "string",
+			"minLength": 1
+		},
+		"vmAdminPassword": {
+			"type": "securestring"
+		},
+		"vmWindowsVersion": {
+			"type": "string",
+			"defaultValue": "2012-R2-Datacenter",
+			"allowedValues": [
+				"2008-R2-SP1",
+				"2016-Datacenter",
+				"2012-R2-Datacenter",
+				"Windows-Server-Technical-Preview"
+			]
+		}
+	},
+	"resources": [{
+			"apiVersion": "2015-06-15",
+			"type": "Microsoft.Network/virtualNetworks",
+			"name": "[variables('networkname')]",
+			"location": "[resourceGroup().location]",
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+						"[variables('networkaddress')]"
+					]
+				},
+				"subnets": [{
+					"name": "[variables('subnetname')]",
+					"properties": {
+						"addressPrefix": "[variables('subnetaddress')]"
+					}
+				}]
+			}
+		},
+		{
+			"name": "[variables('NetworkCard')]",
+			"type": "Microsoft.Network/networkInterfaces",
+			"location": "[resourceGroup().location]",
+			"apiVersion": "2015-06-15",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualNetworks/', 'armnetwork')]"
+			],
+			"properties": {
+				"ipConfigurations": [{
+					"name": "ipconfig1",
+					"properties": {
+						"privateIPAllocationMethod": "Dynamic",
+						"subnet": {
+							"id": "[variables('SubnetID')]"
+						}
+					}
+				}]
+			}
+		},
+		{
+			"name": "[parameters('vmname')]",
+			"type": "Microsoft.Compute/virtualMachines",
+			"location": "[resourceGroup().location]",
+			"apiVersion": "2015-06-15",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkInterfaces/', variables('NetworkCard'))]"
+			],
+			"properties": {
+				"hardwareProfile": {
+					"vmSize": "[variables('VmSize')]"
+				},
+				"osProfile": {
+					"computerName": "[parameters('vmname')]",
+					"adminUsername": "[parameters('vmAdminUser')]",
+					"adminPassword": "[parameters('vmAdminPassword')]"
+				},
+				"storageProfile": {
+					"imageReference": {
+						"publisher": "[variables('ImagePublisher')]",
+						"offer": "[variables('ImageOffer')]",
+						"sku": "[parameters('vmWindowsVersion')]",
+						"version": "latest"
+					},
+					"osDisk": {
+						"name": "vmOSDisk",
+						"vhd": {
+							"uri": "[concat('http://diskstore2070.blob.core.windows.net/data/', variables('OSDiskName'), '.vhd')]"
+						},
+						"caching": "ReadWrite",
+						"createOption": "FromImage"
+					}
+				},
+				"networkProfile": {
+					"networkInterfaces": [{
+						"id": "[resourceId('Microsoft.Network/networkInterfaces', variables('NetworkCard'))]"
+					}]
+				}
+			}
+		}
+	]
+}
