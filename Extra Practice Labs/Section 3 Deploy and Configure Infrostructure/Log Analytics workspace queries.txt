@@ -1,0 +1,16 @@
+Event | search "prodnetwork"
+
+Event | take 5 ( This is taken in no specific order )
+
+Event | top 10 by TimeGenerated
+
+Event | where EventLevel == 4
+
+Event | where TimeGenerated > ago(5m)
+
+Event | where TimeGenerated > ago(5m) | project EventLog, Computer
+
+Perf | where TimeGenerated > ago(5m) | summarize count() by ObjectName, CounterName
+
+Perf | where TimeGenerated > ago(5m) | summarize avg(CounterValue) by Computer
+
