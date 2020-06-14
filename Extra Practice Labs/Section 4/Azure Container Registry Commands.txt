@@ -14,8 +14,8 @@ sudo apt-get install azure-cli
 
 sudo az login
 
-sudo az acr login --name appregistry2090
+sudo az acr login --name pvwContainerRegistry
 
-sudo docker tag dotnetapp appregistry2090.azurecr.io/dotnetapp
+sudo docker tag dotnetapp pvwContainerRegistry.azurecr.io/dotnetapp
 
-sudo docker push appregistry2090.azurecr.io/dotnetapp
+sudo docker push pvwContainerRegistry.azurecr.io/dotnetapp
