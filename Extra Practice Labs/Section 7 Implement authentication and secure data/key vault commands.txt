@@ -1,0 +1,9 @@
+az ad sp create-for-rbac -n secretapp --skip-assignment
+
+Define the following environment variables first
+
+AZURE_CLIENT_ID="527c95f6-964e-49f9-937d-c7c8043e82d6"
+AZURE_CLIENT_SECRET="7559db00-6ba3-4018-9e7d-c9a9a547bfdc"
+AZURE_TENANT_ID="5f5f1c90-abac-4ebe-88d7-0f3d121f967e"
+
+az keyvault set-policy --name demovault9090 --spn "c0fcc4c9-9739-45cd-87a3-bd53072de649" --secret-permissions backup delete get list set
